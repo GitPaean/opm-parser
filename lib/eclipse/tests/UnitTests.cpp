@@ -141,6 +141,7 @@ static void checkSystemHasRequiredDimensions( const UnitSystem& system) {
     BOOST_CHECK( system.hasDimension("Permeability"));
     BOOST_CHECK( system.hasDimension("Pressure"));
     BOOST_CHECK( system.hasDimension("Temperature"));
+    BOOST_CHECK( system.hasDimension("Volume"));
 }
 
 
@@ -154,6 +155,7 @@ BOOST_AUTO_TEST_CASE(CreateMetricSystem) {
     BOOST_CHECK_EQUAL( Metric::Time         , system.getDimension("Time").getSIScaling() );
     BOOST_CHECK_EQUAL( Metric::Permeability , system.getDimension("Permeability").getSIScaling() );
     BOOST_CHECK_EQUAL( Metric::Pressure     , system.getDimension("Pressure").getSIScaling() );
+    BOOST_CHECK_EQUAL( Metric::Volume, system.getDimension("Volume").getSIScaling() );
 
     BOOST_CHECK_EQUAL( system.getEclType( ) , ECL_METRIC_UNITS );
 }
@@ -229,7 +231,8 @@ BOOST_AUTO_TEST_CASE(LabUnitConversions) {
                            Factor{ Meas::liquid_surface_volume , 1.0e-6 }   ,
                            Factor{ Meas::gas_surface_volume    , 1.0e-6 }   ,
                            Factor{ Meas::time                  , 3600.0 }   ,
-                           Factor{ Meas::mass                  , 1.0e-3 }   })
+                           Factor{ Meas::mass                  , 1.0e-3 }   ,
+                           Factor{ Meas::volume                , 1.0e-3 } })
     {
         BOOST_CHECK_CLOSE( q.f , lab.to_si( q.m , 1.0 )   , 1.0e-10 );
         BOOST_CHECK_CLOSE( 1.0 , lab.from_si( q.m , q.f ) , 1.0e-10 );
@@ -306,10 +309,10 @@ BOOST_AUTO_TEST_CASE(PVT_M_UNITS)
     BOOST_CHECK_CLOSE( pvt_m.to_si( Meas::permeability , 1.0 ) , 9.869232667160129e-16 , 1.0e-10 );
     BOOST_CHECK_CLOSE( pvt_m.to_si( Meas::liquid_surface_volume , 1.0 ) , 1.0 , 1.0e-10 );
     BOOST_CHECK_CLOSE( pvt_m.to_si( Meas::gas_surface_volume , 1.0 ) , 1.0 , 1.0e-10 );
-    BOOST_CHECK_CLOSE( pvt_m.to_si( Meas::volume , 1.0 ) , 1.0 , 1.0e-10 );
+    BOOST_CHECK_CLOSE( pvt_m.to_si( Meas::reservoir_volume , 1.0 ) , 1.0 , 1.0e-10 );
     BOOST_CHECK_CLOSE( pvt_m.to_si( Meas::liquid_surface_rate , 1.0 ) , 1.1574074074074073e-05 , 1.0e-10 );
     BOOST_CHECK_CLOSE( pvt_m.to_si( Meas::gas_surface_rate , 1.0 ) , 1.1574074074074073e-05 , 1.0e-10 );
-    BOOST_CHECK_CLOSE( pvt_m.to_si( Meas::rate , 1.0 ) , 1.1574074074074073e-05 , 1.0e-10 );
+    BOOST_CHECK_CLOSE( pvt_m.to_si( Meas::reservoir_rate , 1.0 ) , 1.1574074074074073e-05 , 1.0e-10 );
     BOOST_CHECK_CLOSE( pvt_m.to_si( Meas::transmissibility , 1.0 ) , 1.142272299439830e-13 , 1.0e-10 );
     BOOST_CHECK_CLOSE( pvt_m.to_si( Meas::mass , 1.0 ) , 1.0 , 1.0e-10 );
     BOOST_CHECK_CLOSE( pvt_m.to_si( Meas::gas_oil_ratio , 1.0 ) , 1.0 , 1.0e-10 );
@@ -335,10 +338,10 @@ BOOST_AUTO_TEST_CASE(PVT_M_UNITS)
     BOOST_CHECK_CLOSE( pvt_m.from_si( Meas::permeability , 1.0 ) , 1.01325e+15 , 1.0e-10 );
     BOOST_CHECK_CLOSE( pvt_m.from_si( Meas::liquid_surface_volume , 1.0 ) , 1.0 , 1.0e-10 );
     BOOST_CHECK_CLOSE( pvt_m.from_si( Meas::gas_surface_volume , 1.0 ) , 1.0 , 1.0e-10 );
-    BOOST_CHECK_CLOSE( pvt_m.from_si( Meas::volume , 1.0 ) , 1.0 , 1.0e-10 );
+    BOOST_CHECK_CLOSE( pvt_m.from_si( Meas::reservoir_volume , 1.0 ) , 1.0 , 1.0e-10 );
     BOOST_CHECK_CLOSE( pvt_m.from_si( Meas::liquid_surface_rate , 1.0 ) , 86.400e3 , 1.0e-10 );
     BOOST_CHECK_CLOSE( pvt_m.from_si( Meas::gas_surface_rate , 1.0 ) , 86.400e3 , 1.0e-10 );
-    BOOST_CHECK_CLOSE( pvt_m.from_si( Meas::rate , 1.0 ) , 86.400e3 , 1.0e-10 );
+    BOOST_CHECK_CLOSE( pvt_m.from_si( Meas::reservoir_rate , 1.0 ) , 86.400e3 , 1.0e-10 );
     BOOST_CHECK_CLOSE( pvt_m.from_si( Meas::transmissibility , 1.0 ) , 8.75448e+12 , 1.0e-10 );
     BOOST_CHECK_CLOSE( pvt_m.from_si( Meas::mass , 1.0 ) , 1.0 , 1.0e-10 );
     BOOST_CHECK_CLOSE( pvt_m.from_si( Meas::gas_oil_ratio , 1.0 ) , 1.0 , 1.0e-10 );

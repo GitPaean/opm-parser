@@ -52,10 +52,10 @@ namespace Opm {
             permeability,
             liquid_surface_volume,
             gas_surface_volume,
-            volume,
+            reservoir_volume,
             liquid_surface_rate,
             gas_surface_rate,
-            rate,
+            reservoir_rate,
             transmissibility,
             mass,
             gas_oil_ratio,
@@ -67,6 +67,7 @@ namespace Opm {
             gas_inverse_formation_volume_factor,
             oil_inverse_formation_volume_factor,
             water_inverse_formation_volume_factor,
+            volume
         };
 
         explicit UnitSystem(UnitType unit = UnitType::UNIT_TYPE_METRIC);

@@ -274,6 +274,7 @@ namespace Opm {
         constexpr const double Timestep             = day;
         constexpr const double SurfaceTension       = dyne/(centi*meter);
         constexpr const double Energy               = kilo*joule;
+        constexpr const double Volume               = cubic(meter);
     }
 
 
@@ -301,6 +302,7 @@ namespace Opm {
         constexpr const double Timestep             = day;
         constexpr const double SurfaceTension       = dyne/(centi*meter);
         constexpr const double Energy               = btu;
+        constexpr const double Volume               = cubic(feet);
     }
 
 
@@ -328,6 +330,7 @@ namespace Opm {
         constexpr const double Timestep             = hour;
         constexpr const double SurfaceTension       = dyne/(centi*meter);
         constexpr const double Energy               = joule;
+        constexpr const double Volume               = cubic(centi*meter);
     }
 
 
@@ -355,6 +358,7 @@ namespace Opm {
         constexpr const double Timestep             = day;
         constexpr const double SurfaceTension       = dyne/(centi*meter);
         constexpr const double Energy               = kilo*joule;
+        constexpr const double Volume               = cubic(meter);
     }
 }
 
