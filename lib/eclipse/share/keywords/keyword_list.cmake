@@ -435,4 +435,5 @@ set( keywords
      900_OPM/P/PINTDIMS
      900_OPM/R/RHO
      900_OPM/S/SKPRPOLY
+     900_OPM/S/SKPRWAT
      900_OPM/T/TLPMIXPA)

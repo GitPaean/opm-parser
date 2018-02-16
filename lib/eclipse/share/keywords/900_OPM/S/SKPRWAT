@@ -1,0 +1,7 @@
+{"name" : "SKPRWAT" , "sections" : ["PROPS"], "num_tables" : {"keyword":"PINTDIMS" , "item":"NTSKWAT"},
+"items" :
+    [
+       {"name":"THROUGHPUT", "value_type" : "DOUBLE", "dimension" : "Length" },
+       {"name":"DATA", "size_type" : "ALL" , "value_type":"DOUBLE" , "dimension" : ["Length/Time","Pressure"]}
+    ]
+}
