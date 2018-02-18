@@ -101,6 +101,8 @@ namespace Opm {
         initSimpleTables( deck );
         initFullTables(deck, "PVTG", m_pvtgTables);
         initFullTables(deck, "PVTO", m_pvtoTables);
+        initFullTables(deck, "SKPRWAT", m_skprwattables);
+
         if( deck.hasKeyword( "PVTW" ) )
             this->m_pvtwTable = PvtwTable( deck.getKeyword( "PVTW" ) );
 
@@ -126,6 +128,11 @@ namespace Opm {
             m_rtemp = deck.getKeyword("RTEMP").getRecord(0).getItem("TEMP").getSIDouble( 0 );
         else if (deck.hasKeyword( "RTEMPA" ) )
             m_rtemp = deck.getKeyword("RTEMPA").getRecord(0).getItem("TEMP").getSIDouble( 0 );
+
+        // initFullTables(deck, 'SKPRWAT', m_skprwatTables);
+        // TODO: I need a type to describe the skprwatTables
+        // for SKPRWAT keyword, it will be very similar to the PvtoTable, PvtxTable will be the
+        // key class to study
     }
 
     void TableManager::initDims(const Deck& deck) {
@@ -337,6 +344,7 @@ namespace Opm {
         initRTempTables(deck);
         initRocktabTables(deck);
         initPlyshlogTables(deck);
+        initSkprPolyTables(deck);
     }
 
 
@@ -412,6 +420,20 @@ namespace Opm {
         }
     }
 
+    void TableManager::initSkprPolyTables(const Deck& deck) {
+        const std::string keywordName = "SKPRPOLY";
+
+        if (!deck.hasKeyword(keywordName)) {
+            return;
+        }
+
+        if (!deck.count(keywordName)) {
+            complainAboutAmbiguousKeyword(deck, keywordName);
+            return;
+        }
+        // TODO: need to be a reference here
+        // const auto tableKeyword = deck.getKeyword(keywordName);
+    }
 
     void TableManager::initPlyrockTables(const Deck& deck) {
         size_t numTables = m_tabdims.getNumSatTables();

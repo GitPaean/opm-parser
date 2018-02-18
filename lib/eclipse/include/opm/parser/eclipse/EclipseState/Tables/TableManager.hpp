@@ -30,6 +30,7 @@
 #include <opm/parser/eclipse/EclipseState/Schedule/ScheduleEnums.hpp> // Phase::PhaseEnum
 #include <opm/parser/eclipse/EclipseState/Tables/PvtgTable.hpp>
 #include <opm/parser/eclipse/EclipseState/Tables/PvtoTable.hpp>
+#include <opm/parser/eclipse/EclipseState/Tables/SkprwatTable.hpp>
 
 #include <opm/parser/eclipse/EclipseState/Tables/FlatTable.hpp>
 #include <opm/parser/eclipse/EclipseState/Tables/VFPProdTable.hpp>
@@ -163,6 +164,7 @@ namespace Opm {
         void initPlymaxTables(const Deck& deck);
         void initPlyrockTables(const Deck& deck);
         void initPlyshlogTables(const Deck& deck);
+        void initSkprPolyTables(const Deck& deck);
 
 
 
@@ -287,8 +289,12 @@ namespace Opm {
             const auto& tableKeyword = deck.getKeyword(keywordName);
 
             int numTables = TableType::numTables( tableKeyword );
-            for (int tableIdx = 0; tableIdx < numTables; ++tableIdx)
-                tableVector.emplace_back( tableKeyword , tableIdx );
+
+            for (int tableIdx = 0; tableIdx < numTables; ++tableIdx) {
+                const TableType table(tableKeyword, tableIdx);
+                tableVector.push_back(table);
+                // tableVector.emplace_back(tableKeyword, tableIdx);
+            }
         }
 
         std::map<std::string , TableContainer> m_simpleTables;
@@ -296,6 +302,7 @@ namespace Opm {
         std::map<int, VFPInjTable> m_vfpinjTables;
         std::vector<PvtgTable> m_pvtgTables;
         std::vector<PvtoTable> m_pvtoTables;
+        std::vector<SkprwatTable> m_skprwattables;
         PvtwTable m_pvtwTable;
         PvcdoTable m_pvcdoTable;
         DensityTable m_densityTable;

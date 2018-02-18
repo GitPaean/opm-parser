@@ -51,6 +51,7 @@
 #include <opm/parser/eclipse/EclipseState/Tables/PvdsTable.hpp>
 #include <opm/parser/eclipse/EclipseState/Tables/PvtgTable.hpp>
 #include <opm/parser/eclipse/EclipseState/Tables/PvtoTable.hpp>
+#include <opm/parser/eclipse/EclipseState/Tables/SkprwatTable.hpp>
 #include <opm/parser/eclipse/EclipseState/Tables/RocktabTable.hpp>
 #include <opm/parser/eclipse/EclipseState/Tables/RsvdTable.hpp>
 #include <opm/parser/eclipse/EclipseState/Tables/RtempvdTable.hpp>
@@ -104,6 +105,18 @@ PvtoTable::PvtoTable( const DeckKeyword& keyword, size_t tableIdx) :
 
         PvtxTable::init(keyword , tableIdx);
     }
+
+SkprwatTable::SkprwatTable(const Opm::DeckKeyword &keyword, size_t tableIdx) :
+    PvtxTable("THROUGHPUT") {
+    m_underSaturatedSchema.addColumn(ColumnSchema("VELOCITY", Table::STRICTLY_INCREASING, Table::DEFAULT_NONE));
+    m_underSaturatedSchema.addColumn(ColumnSchema("SKINPRESS", Table::RANDOM, Table::DEFAULT_LINEAR));
+
+    m_saturatedSchema.addColumn(ColumnSchema("THROUGHPUTG", Table::STRICTLY_INCREASING, Table::DEFAULT_NONE));
+    m_saturatedSchema.addColumn(ColumnSchema("VELOCITY", Table::STRICTLY_INCREASING, Table::DEFAULT_NONE));
+    m_saturatedSchema.addColumn(ColumnSchema("SKINPRESSG", Table::RANDOM, Table::DEFAULT_LINEAR));
+
+    PvtxTable::init(keyword, tableIdx);
+}
 
 SpecheatTable::SpecheatTable(const DeckItem& item)
 {
