@@ -81,6 +81,7 @@
 #include <opm/parser/eclipse/EclipseState/Tables/Aqudims.hpp>
 
 #include <opm/parser/eclipse/Units/Units.hpp>
+#include <include/opm/parser/eclipse/Parser/ParserKeywords/S.hpp>
 
 namespace Opm {
 
@@ -121,6 +122,8 @@ namespace Opm {
 
         initVFPProdTables(deck, m_vfpprodTables);
         initVFPInjTables(deck,  m_vfpinjTables);
+
+        initSkprpolyTables(deck);
 
         if( deck.hasKeyword( "RTEMP" ) )
             m_rtemp = deck.getKeyword("RTEMP").getRecord(0).getItem("TEMP").getSIDouble( 0 );
@@ -542,6 +545,31 @@ namespace Opm {
             }
             else {
                 throw std::invalid_argument("Duplicate table numbers for VFPINJ found");
+            }
+        }
+    }
+
+    void TableManager::initSkprpolyTables(const Opm::Deck& deck)
+    {
+        if ( !deck.hasKeyword("SKPRPOLY") ) {
+            return;
+        }
+
+        const size_t num_tables = deck.count("SKPRPOLY");
+        const auto keywords = deck.getKeywordList<ParserKeywords::SKPRPOLY>();
+        for (size_t i = 0; i < num_tables; ++i) {
+            const DeckKeyword& keyword = *keywords[i];
+
+            const SkprpolyTable table(keyword);
+
+            const size_t table_number = table.getTableNumber();
+            // we should check if the table_number is valid
+            if (m_skprpolyTables.find(table_number) == m_skprpolyTables.end()) {
+                m_skprpolyTables.insert(std::make_pair(table_number,std::move(table) ) );
+            } else {
+                throw std::invalid_argument("Duplicated table number "
+                                            + std::to_string(table_number)
+                                            + " for keyword SKPRPOLY found");
             }
         }
     }

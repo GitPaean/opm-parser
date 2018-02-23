@@ -63,6 +63,7 @@ list(APPEND MAIN_SOURCE_FILES
   lib/eclipse/EclipseState/Tables/JFunc.cpp
   lib/eclipse/EclipseState/Tables/PvtxTable.cpp
   lib/eclipse/EclipseState/Tables/SimpleTable.cpp
+  lib/eclipse/EclipseState/Tables/SkprpolyTable.cpp
   lib/eclipse/EclipseState/Tables/TableColumn.cpp
   lib/eclipse/EclipseState/Tables/TableContainer.cpp
   lib/eclipse/EclipseState/Tables/TableIndex.cpp
