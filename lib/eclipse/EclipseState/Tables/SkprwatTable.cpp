@@ -18,44 +18,43 @@
 */
 
 #include <opm/parser/eclipse/Deck/DeckKeyword.hpp>
-#include <opm/parser/eclipse/EclipseState/Tables/SkprpolyTable.hpp>
+#include <opm/parser/eclipse/EclipseState/Tables/SkprwatTable.hpp>
 #include <opm/parser/eclipse/Parser/ParserKeywords/S.hpp>
 
 
 namespace Opm{
 
-    SkprpolyTable::SkprpolyTable(const Opm::DeckKeyword& table)
+    SkprwatTable::SkprwatTable(const Opm::DeckKeyword& table)
     {
         using namespace ParserKeywords;
 
         const DeckRecord& record0 = table.getRecord(0);
-        m_table_number = record0.getItem<SKPRPOLY::TABLE_NUMBER>().get< int >(0);
-        m_reference_concentration = record0.getItem<SKPRPOLY::REF_CONC>().getSIDouble(0);
-        m_x_points = table.getRecord(1).getItem<SKPRPOLY::THROUGHPUT>().getSIDoubleData();
+        m_table_number = record0.getItem<SKPRWAT::TABLE_NUMBER>().get< int >(0);
+        m_x_points = table.getRecord(1).getItem<SKPRWAT::THROUGHPUT>().getSIDoubleData();
         const size_t num_cols = m_x_points.size();
 
         if (table.size() != num_cols + 3) {
-            const std::string msg = "SKPRPOLY table " + std::to_string(m_table_number)
+            const std::string msg = "SKPRWAT table " + std::to_string(m_table_number)
                                     + " does not have enough records!";
             throw std::invalid_argument(msg);
         }
 
-        m_y_points = table.getRecord(2).getItem<SKPRPOLY::VELOCITY>().getSIDoubleData();
+        m_y_points = table.getRecord(2).getItem<SKPRWAT::VELOCITY>().getSIDoubleData();
         const size_t num_rows = m_y_points.size();
 
         for (size_t i = 3; i < table.size(); ++i) {
             const DeckRecord& record_i = table.getRecord(i);
             const std::vector<double>& data_i = record_i.getItem<SKPRPOLY::PRESSURE>().getSIDoubleData();
             if (data_i.size() != num_rows) {
-                const std::string msg = "SKPRPOLY table " + std::to_string(m_table_number)
-                                      + " record " + std::to_string(i)
-                                      + " does not have correct number of data ";
+                const std::string msg = "SKPRWAT table " + std::to_string(m_table_number)
+                                        + " record " + std::to_string(i)
+                                        + " does not have correct number of data ";
                 throw std::invalid_argument(msg);
             }
         }
     }
 
-    size_t SkprpolyTable::getTableNumber() const
+    size_t SkprwatTable::getTableNumber() const
     {
         return m_table_number;
     }

@@ -41,6 +41,7 @@
 #include <opm/parser/eclipse/EclipseState/Tables/MsfnTable.hpp>
 #include <opm/parser/eclipse/EclipseState/Tables/JFunc.hpp>
 #include <opm/parser/eclipse/EclipseState/Tables/SkprpolyTable.hpp>
+#include <opm/parser/eclipse/EclipseState/Tables/SkprwatTable.hpp>
 
 #include <opm/parser/eclipse/EclipseState/Tables/Tabdims.hpp>
 #include <opm/parser/eclipse/EclipseState/Tables/TableContainer.hpp>
@@ -161,6 +162,7 @@ namespace Opm {
                               std::map<int, VFPInjTable>& tableMap);
 
         void initSkprpolyTables(const Deck& deck);
+        void initSkprwatTables(const Deck& deck);
 
 
         void initPlymaxTables(const Deck& deck);
@@ -298,6 +300,7 @@ namespace Opm {
         std::map<int, VFPProdTable> m_vfpprodTables;
         std::map<int, VFPInjTable> m_vfpinjTables;
         std::map<size_t, SkprpolyTable> m_skprpolyTables;
+        std::map<size_t, SkprwatTable> m_skprwatTables;
         std::vector<PvtgTable> m_pvtgTables;
         std::vector<PvtoTable> m_pvtoTables;
         PvtwTable m_pvtwTable;

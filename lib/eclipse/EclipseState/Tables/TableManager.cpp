@@ -124,6 +124,7 @@ namespace Opm {
         initVFPInjTables(deck,  m_vfpinjTables);
 
         initSkprpolyTables(deck);
+        initSkprwatTables(deck);
 
         if( deck.hasKeyword( "RTEMP" ) )
             m_rtemp = deck.getKeyword("RTEMP").getRecord(0).getItem("TEMP").getSIDouble( 0 );
@@ -570,6 +571,31 @@ namespace Opm {
                 throw std::invalid_argument("Duplicated table number "
                                             + std::to_string(table_number)
                                             + " for keyword SKPRPOLY found");
+            }
+        }
+    }
+
+    void TableManager::initSkprwatTables(const Opm::Deck& deck)
+    {
+        if ( !deck.hasKeyword("SKPRWAT") ) {
+            return;
+        }
+
+        const size_t num_tables = deck.count("SKPRWAT");
+        const auto keywords = deck.getKeywordList<ParserKeywords::SKPRWAT>();
+        for (size_t i = 0; i < num_tables; ++i) {
+            const DeckKeyword& keyword = *keywords[i];
+
+            const SkprwatTable table(keyword);
+
+            const size_t table_number = table.getTableNumber();
+            // we should check if the table_number is valid
+            if (m_skprwatTables.find(table_number) == m_skprwatTables.end()) {
+                m_skprwatTables.insert(std::make_pair(table_number,std::move(table) ) );
+            } else {
+                throw std::invalid_argument("Duplicated table number "
+                                            + std::to_string(table_number)
+                                            + " for keyword SKPRWAT found");
             }
         }
     }
